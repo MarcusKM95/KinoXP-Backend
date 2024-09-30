@@ -8,17 +8,28 @@ public class Snacks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(nullable = false)
-    private String typeOf;
+    private int id;
+
+    @Enumerated(EnumType.STRING)
+    private TypeOfSnack typeOfSnack;
+
     @Column(nullable = false)
     private int price;
 
-    public String getTypeOf() {
-        return typeOf;
+    public int getId() {
+        return id;
     }
 
-    public void setTypeOf(String typeOf) {
-        this.typeOf = typeOf;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public TypeOfSnack getTypeOfSnack() {
+        return typeOfSnack;
+    }
+
+    public void setTypeOfSnack(TypeOfSnack typeOfSnack) {
+        this.typeOfSnack = typeOfSnack;
     }
 
     public int getPrice() {

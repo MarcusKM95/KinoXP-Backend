@@ -14,8 +14,9 @@ public class Cinema {
     @Column(nullable = false, unique = true)
     private String name; // navn på biograf
 
-    @Column (nullable = false)
-    private String location; // biograf location
+    @ManyToOne
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location; // biograf location
 
 
     @OneToMany(mappedBy = "cinema") // en biograf kan have mange sale
@@ -45,11 +46,11 @@ public class Cinema {
         this.theaters = theaters;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 }

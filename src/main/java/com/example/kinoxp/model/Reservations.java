@@ -26,6 +26,30 @@ public class Reservations {
     @JoinColumn(name = "snacks_id")
     private Snacks snacks;
 
+    @ManyToOne
+    @JoinColumn(name = "cinema_id")
+    private Cinema cinema; // mange reservationer kan have en biograf
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location; // mange reservationer kan have en location
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Cinema getCinema() {
+        return cinema;
+    }
+
+    public void setCinema(Cinema cinema) {
+        this.cinema = cinema;
+    }
+
     public int getId() {
         return id;
     }

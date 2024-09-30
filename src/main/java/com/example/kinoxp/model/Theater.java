@@ -12,8 +12,8 @@ public class Theater {
     @Column (nullable = false)
     private int seats; // antal sæder i salen
 
-    @Column (nullable = false)
-    private int rows; // antal rækker i salen
+    @Column (nullable = false, name = "num_rows")
+    private int numRows; // antal rækker i salen
 
     @Column (nullable = false)
     private double price; // pris for en billet i denne sal
@@ -46,14 +46,14 @@ public class Theater {
         this.seats = seats;
     }
 
-    public int getRows() {
-        return rows;
+
+    public int getNumRows() {
+        return numRows;
     }
 
-    public void setRows(int rows) {
-        this.rows = rows;
+    public void setNumRows(int numRows) {
+        this.numRows = numRows;
     }
-
 
     public double getPrice() {
         return price;
