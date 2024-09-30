@@ -7,14 +7,36 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class Theater {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column (nullable = false)
-    private int seats;
-    @Column (nullable = false)
+    private int id;
 
-    private int rows;
     @Column (nullable = false)
+    private int seats; // antal sæder i salen
 
-    private double price;
+    @Column (nullable = false)
+    private int rows; // antal rækker i salen
+
+    @Column (nullable = false)
+    private double price; // pris for en billet i denne sal
+
+    @ManyToOne
+    @JoinColumn(name = "cinema_id", nullable = false)
+    private Cinema cinema; // salen skal tilknyttets til en biograf
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Cinema getCinema() {
+        return cinema;
+    }
+
+    public void setCinema(Cinema cinema) {
+        this.cinema = cinema;
+    }
 
     public int getSeats() {
         return seats;

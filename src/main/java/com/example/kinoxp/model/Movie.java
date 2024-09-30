@@ -1,24 +1,58 @@
 package com.example.kinoxp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(nullable = false, unique = true)
     private String movieName;
+
+    @Column(nullable = false)
     private LocalDateTime releaseDate;
+
+    @Column(nullable = false)
     private int duration;
+
+    @Column(nullable = false)
     private String movieInstructor;
+
+    @Column(nullable = false)
     private int ageLimit;
+
+    @Column(nullable = false)
     private boolean version;
+
+    @Column(nullable = false)
     private double price;
+
+    @Enumerated(EnumType.STRING)
     private Genre genre;
+
+    @OneToMany(mappedBy = "movie")
+    private List<Showtime> showTimes;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Showtime> getShowTimes() {
+        return showTimes;
+    }
+
+    public void setShowTimes(List<Showtime> showTimes) {
+        this.showTimes = showTimes;
+    }
 
     public String getMovieName() {
         return movieName;
