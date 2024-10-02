@@ -9,6 +9,14 @@ public class Theater {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
+    private String name;
+
+    //ManyToOne relation til Location
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
+
     @Column (nullable = false)
     private int seats; // antal sæder i salen
 
@@ -30,12 +38,20 @@ public class Theater {
         this.id = id;
     }
 
-    public Cinema getCinema() {
-        return cinema;
+    public String getName() {
+        return name;
     }
 
-    public void setCinema(Cinema cinema) {
-        this.cinema = cinema;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public int getSeats() {
@@ -45,7 +61,6 @@ public class Theater {
     public void setSeats(int seats) {
         this.seats = seats;
     }
-
 
     public int getNumRows() {
         return numRows;
@@ -61,5 +76,13 @@ public class Theater {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Cinema getCinema() {
+        return cinema;
+    }
+
+    public void setCinema(Cinema cinema) {
+        this.cinema = cinema;
     }
 }
