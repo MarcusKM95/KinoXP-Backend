@@ -28,11 +28,10 @@ public class TheaterService {
         Theater theater = getTheaterById(id);
         theater.setName(theaterDetails.getName());
         theater.setLocation(theaterDetails.getLocation());
-
-        //theater.setSeats(theaterDetails.getSeats());
-        //theater.setNumRows(theaterDetails.getNumRows());
-        // theater.setPrice(theaterDetails.getPrice());
-       // theater.setCinema(theaterDetails.getCinema());
+        theater.setSeats(theaterDetails.getSeats());
+        theater.setNumRows(theaterDetails.getNumRows());
+        theater.setPrice(theaterDetails.getPrice());
+        theater.setCinema(theaterDetails.getCinema());
 
         return theaterRepository.save(theater);
 
