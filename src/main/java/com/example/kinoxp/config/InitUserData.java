@@ -20,9 +20,9 @@ public class InitUserData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         User[] users = {
-                new User(null, "address123", "user@gmail.com", "12344556", UserType.MOVIEMANAGER, "Ali", "password123"),
-                new User(null, "Address456", "moviemanager@gmail.com", "2345567", UserType.RESERVATIONSMANAGER, "M", "password456"),
-                new User(null, "address789", "customer@gmail.com", "987654443", UserType.CUSTOMER, "K", "password789")
+                new User(1, "address123", "user@gmail.com", "12344556", UserType.MOVIEMANAGER, "Ali", "password123"),
+                new User(2, "Address456", "moviemanager@gmail.com", "2345567", UserType.RESERVATIONSMANAGER, "M", "password456"),
+                new User(3, "address789", "customer@gmail.com", "987654443", UserType.CUSTOMER, "K", "password789")
         };
 
         try {

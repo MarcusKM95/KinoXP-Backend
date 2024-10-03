@@ -1,5 +1,7 @@
 package com.example.kinoxp.controller;
 
+import com.example.kinoxp.dto.UserDTO;
+import com.example.kinoxp.mapper.UserMapper;
 import com.example.kinoxp.model.User;
 import com.example.kinoxp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -15,24 +18,32 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @PostMapping
-    public ResponseEntity<User>createUser(@RequestBody User user) {
+    public ResponseEntity<UserDTO>createUser(@RequestBody UserDTO userDTO) {
+        User user = userMapper.toUser(userDTO);
         User savedUser = userService.createUser(user);
-        return ResponseEntity.status(201).body(savedUser);
+        UserDTO responseDTO = userMapper.toUserDTO(savedUser);
+        return ResponseEntity.status(201).body(responseDTO);
     }
     @GetMapping
-        public List<User> getAllUsers(){
-        return userService.getAllUsers();
+        public List<UserDTO> getAllUsers(){
+        return userService.getAllUsers().stream()
+                .map(userMapper::toUserDTO)
+                .collect(Collectors.toList());
     }
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable int id) {
         User user = userService.getUserById(id);
-        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+        return user != null ? ResponseEntity.ok(userMapper.toUserDTO(user)) : ResponseEntity.notFound().build();
     }
-    @PostMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User userDetails) {
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
+        User userDetails = userMapper.toUser(userDTO);
         User updateUser = userService.updateUser(id, userDetails);
-        return updateUser != null ? ResponseEntity.ok(updateUser) : ResponseEntity.notFound().build();
+        return updateUser != null ? ResponseEntity.ok(userMapper.toUserDTO(updateUser)) : ResponseEntity.notFound().build();
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable int id) {
