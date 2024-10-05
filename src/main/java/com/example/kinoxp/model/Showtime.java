@@ -2,10 +2,8 @@ package com.example.kinoxp.model;
 
 import jakarta.persistence.*;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 public class Showtime {
@@ -14,21 +12,17 @@ public class Showtime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
-    private LocalDateTime startTime;
+   @Column(nullable = false)
+   private LocalDateTime showTimeAndDate;
 
-    @Column(nullable = false)
-    private LocalDateTime endTime;
+    @Column (nullable = false)
+    private boolean is3D;
 
-
-    // Dette giver mulighed for at tilføje flere ugedage til en enkelt Showtime.
-    //Du kan tilføje flere ugedage for den samme filmvisning. Dette er nyttigt, hvis filmen skal vises flere gange om ugen (f.eks. mandag, onsdag og fredag).
-   ///Du skal muligvis tilføje valideringslogik for at sikre, at det kun er gyldige ugedage, der bliver tilføjet.
-    @ElementCollection
-    private List<DayOfWeek> dayOfWeeks; //Liste over ugedage, hvor filmen spilles
+    @Column (nullable = false)
+    private boolean isFullLength;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
@@ -42,6 +36,7 @@ public class Showtime {
 
     public void setMovie(Movie movie) {
         this.movie = movie;
+        updateFullLengthStatus(); // opdater status når film sættes
     }
 
     public Theater getTheater() {
@@ -60,35 +55,51 @@ public class Showtime {
         this.id = id;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public LocalDateTime getShowTimeAndDate() {
+        return showTimeAndDate;
     }
 
-    // dette sikre at end time altid er efter start time
-    public void setStartTime(LocalDateTime startTime) {
-        if (endTime != null && endTime.isBefore(startTime)) {
-            throw  new IllegalArgumentException("End time must be after end time");
+    public void setShowTimeAndDate(LocalDateTime showTimeAndDate) {
+        this.showTimeAndDate = showTimeAndDate;
+        updateFullLengthStatus(); // opdater status når tid sættes
+    }
+
+    public boolean isIs3D() {
+        return is3D;
+    }
+
+
+    public void setIs3D(boolean is3D) {
+        this.is3D = is3D;
+    }
+
+    public boolean isFullLength() {
+        return isFullLength;
+    }
+
+    public void setFullLength(boolean fullLength) {
+        isFullLength = fullLength;
+    }
+
+    // Metode til at opdatere isFullLength baseret på filmens varighed
+    private void updateFullLengthStatus() {
+        if (movie != null) {
+            this.isFullLength = movie.getDurationMinutes() >= 170; // F.eks. mere end 2 timer
         }
-        this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    // dette sikre at end time altid er efter start time
-    public void setEndTime(LocalDateTime endTime) {
-        if (startTime != null && endTime.isBefore(startTime)) {
-            throw  new IllegalArgumentException("End time must be after start time");
+    // Metode til at beregne sluttiden for showet
+    public LocalDateTime calculateEndTime() {
+        if (movie != null) {
+            return showTimeAndDate.plusMinutes(movie.getDurationMinutes());
         }
-        this.endTime = endTime;
+        return null; // Hvis filmen ikke er sat, kan du returnere null eller kaste en undtagelse
     }
 
-    public List<DayOfWeek> getDayOfWeeks() {
-        return dayOfWeeks;
-    }
-
-    public void setDayOfWeeks(List<DayOfWeek> dayOfWeeks) {
-        this.dayOfWeeks = dayOfWeeks;
+    public double calculateTicketPrice(PricingConfig config) {
+        double price = movie.getBasePrice(); // Hent basisprisen fra Movie
+        if (is3D) price += config.getExtraPriceFor3D(); // Ekstra tillæg for 3D
+        if (isFullLength) price += config.getExtraPriceForAllNighterMovie(); // Ekstra tillæg for hele aftensfilm
+        return price;
     }
 }

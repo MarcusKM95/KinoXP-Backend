@@ -1,4 +1,4 @@
-package com.example.kinoxp.model;
+package com.example.kinoxp.enums;
 
 public enum UserType {
     MOVIEMANAGER,

@@ -1,5 +1,6 @@
 package com.example.kinoxp.model;
 
+import com.example.kinoxp.enums.UserType;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,7 +13,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "username")
     private String name;
 
     @Column(nullable = false)
@@ -21,9 +22,15 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    private String address;
+    private String password; // Nullable for guests
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public UserType getUserType() {
         return userType;
@@ -65,11 +72,4 @@ public class User {
         this.email = email;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

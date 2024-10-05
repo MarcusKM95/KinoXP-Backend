@@ -1,7 +1,9 @@
 package com.example.kinoxp.model;
 
+import com.example.kinoxp.enums.Genre;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,10 +17,13 @@ public class Movie {
     private String movieName;
 
     @Column(nullable = false)
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
 
     @Column(nullable = false)
-    private int duration;
+    private int durationMinutes;
+
+    private boolean isAllNighter;  // Additional charge for long movies
+
 
     @Column(nullable = false)
     private String movieInstructor;
@@ -27,16 +32,41 @@ public class Movie {
     private int ageLimit;
 
     @Column(nullable = false)
-    private boolean version;
-
-    @Column(nullable = false)
-    private double price;
+    private boolean is3D;
 
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
+    @Column(nullable = false)
+    private double basePrice; // grundpris for filmen
+
     @OneToMany(mappedBy = "movie")
-    private List<Showtime> showTimes;
+    private List<Showtime> showTimes; // en film kan have mange showTimes
+
+    // Standard konstruktør
+    public Movie() {}
+
+
+    // Konstruktør
+    public Movie(String movieName) {
+        this.movieName = movieName;
+    }
+
+    public boolean isAllNighter() {
+        return isAllNighter;
+    }
+
+    public void setAllNighter(boolean allNighter) {
+        isAllNighter = allNighter;
+    }
+
+    public double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
+    }
 
     public int getId() {
         return id;
@@ -70,20 +100,20 @@ public class Movie {
         this.genre = genre;
     }
 
-    public LocalDateTime getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDateTime releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
-    public int getDuration() {
-        return duration;
+    public int getDurationMinutes() {
+        return durationMinutes;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setDurationMinutes(int durationMinutes) {
+        this.durationMinutes = durationMinutes;
     }
 
     public String getMovieInstructor() {
@@ -102,19 +132,14 @@ public class Movie {
         this.ageLimit = ageLimit;
     }
 
-    public boolean isVersion() {
-        return version;
+    public boolean isIs3D() {
+        return is3D;
     }
 
-    public void setVersion(boolean version) {
-        this.version = version;
+    public void setIs3D(boolean is3D) {
+        this.is3D = is3D;
     }
 
-    public double getPrice() {
-        return price;
-    }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+
 }

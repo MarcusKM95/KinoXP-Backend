@@ -1,5 +1,6 @@
 package com.example.kinoxp.model;
 
+import com.example.kinoxp.enums.TypeOfSnack;
 import jakarta.persistence.*;
 
 @Entity
