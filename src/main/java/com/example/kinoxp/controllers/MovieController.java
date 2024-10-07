@@ -67,10 +67,34 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Movie>> getAllMovies() {
-        List<Movie> movies = movieRepository.findAll(); // Assuming you have a method in MovieRepository to fetch all movies
-        return ResponseEntity.ok(movies);
+    public ResponseEntity<List<MovieDTO>> getAllMovies() {
+        List<Movie> movies = movieRepository.findAll();  // Fetch all movies from the repository
+
+        // Convert each Movie entity to MovieDTO
+        List<MovieDTO> movieDTOs = movies.stream().map(this::convertToMovieDTO).toList();
+
+        return ResponseEntity.ok(movieDTOs);  // Return the list of MovieDTOs
     }
+
+    // Helper method to convert Movie to MovieDTO
+    private MovieDTO convertToMovieDTO(Movie movie) {
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setTitle(movie.getMovieName());
+        movieDTO.setBasePrice(movie.getBasePrice());
+        movieDTO.setIs3D(movie.isIs3D());
+        movieDTO.setAllNighter(movie.isAllNighter());
+        movieDTO.setDurationMinutes(movie.getDurationMinutes());
+        movieDTO.setReleaseDate(movie.getReleaseDate());
+        movieDTO.setAgeLimit(movie.getAgeLimit());
+        movieDTO.setInstructor(movie.getMovieInstructor());
+        movieDTO.setGenre(movie.getGenre());
+
+        // Set the poster URL based on the movie name, removing spaces for file names
+        String fileName = movie.getMovieName().replace(" ", "");  // Removes spaces for file names
+        movieDTO.setPosterURL("http://localhost:8080/images/" + fileName + ".jpg");
+
+        return movieDTO;
+}
 
     @PostMapping("/{movieId}/showtimes")
     public ResponseEntity<Showtime> createShowtime(@PathVariable int movieId, @RequestBody ShowtimeDTO showtimeDTO) {

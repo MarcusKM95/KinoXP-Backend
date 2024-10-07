@@ -14,6 +14,16 @@ public class MovieDTO {
     private int ageLimit;  // Minimum age to watch the movie
     private String instructor;  // Movie instructor (director)
     private Genre genre;  // Enum for genre
+    private String posterURL; // URL to the movie poster
+
+
+    public String getPosterURL() {
+        return posterURL;
+    }
+
+    public void setPosterURL(String posterURL) {
+        this.posterURL = posterURL;
+    }
 
 
     public String getTitle() {
