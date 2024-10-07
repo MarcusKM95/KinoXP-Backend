@@ -25,7 +25,7 @@ public class User {
 
     private String password;
 
-    // Конструкторы
+
     public User() {}
 
     public User(int id, String address, String email, String phoneNumber, UserType userType, String userName, String password) {

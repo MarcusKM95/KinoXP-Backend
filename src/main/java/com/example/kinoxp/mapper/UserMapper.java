@@ -8,29 +8,26 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
     public UserDTO toUserDTO(User user) {
-        if (user == null) return null;
-        return new UserDTO(
-                user.getId(),
-                user.getAddress(),
-                user.getEmail(),
-                user.getPhoneNumber(),
-                user.getUserType(),
-                user.getUserName(),
-                null
-        );
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setUserName(user.getUserName());
+        dto.setEmail(user.getEmail());
+        dto.setAddress(user.getAddress());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setUserType(user.getUserType());
+        // Undlad at sætte password for sikkerhed
+        return dto;
     }
 
-
-    public User toUser(UserDTO dto) {
-        if (dto == null) return null;
+    public User toUser(UserDTO userDTO) {
         User user = new User();
-        user.setId(dto.getId());
-        user.setAddress(dto.getAddress());
-        user.setEmail(dto.getEmail());
-        user.setPhoneNumber(dto.getPhoneNumber());
-        user.setUserType(dto.getUserType());
-        user.setUserName(dto.getUserName());
+        user.setUserName(userDTO.getUserName());
+        user.setEmail(userDTO.getEmail());
+        user.setAddress(userDTO.getAddress());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setPassword(userDTO.getPassword()); // Sørg for, at adgangskoden sættes før hashing
+        user.setUserType(userDTO.getUserType());
         return user;
-
     }
 }
+

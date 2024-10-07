@@ -1,5 +1,6 @@
 package com.example.kinoxp.service;
 
+import com.example.kinoxp.dto.LoginDTO;
 import com.example.kinoxp.model.User;
 import com.example.kinoxp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,15 @@ public class UserService {
 
     public void deleteUser(int id) {
         userRepository.deleteById(id);
+    }
+
+
+    public User authenticateUser(String email, String password) {
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        return user;
+
+
     }
 }
