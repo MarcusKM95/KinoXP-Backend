@@ -7,13 +7,20 @@ import com.example.kinoxp.model.Movie;
 import com.example.kinoxp.model.Showtime;
 import com.example.kinoxp.repositories.MovieRepository;
 import com.example.kinoxp.repositories.ShowTimeRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("movies")
 public class MovieController {
@@ -34,6 +41,30 @@ public class MovieController {
         return ResponseEntity.ok(showTimes);
     }
 
+    @PostMapping("/uploadPoster")
+    public ResponseEntity<String> uploadPoster(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body("File is empty");
+        }
+
+        try {
+            // Define the path where the image should be saved
+            String staticImagesPath = new File("src/main/resources/static/images").getAbsolutePath();
+            File destinationFile = new File(staticImagesPath, file.getOriginalFilename());
+
+            // Save the file
+            file.transferTo(destinationFile);
+
+            // Generate the URL where the image will be accessible
+            String imageUrl = "/images/" + file.getOriginalFilename();
+
+            return ResponseEntity.ok(imageUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file");
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Movie> createMovie(@RequestBody MovieDTO movieDTO) {
         Movie movie = new Movie();
@@ -46,10 +77,11 @@ public class MovieController {
         movie.setAgeLimit(movieDTO.getAgeLimit());
         movie.setMovieInstructor(movieDTO.getInstructor());
         movie.setGenre(movieDTO.getGenre());
+        movie.setPosterURL(movieDTO.getPosterURL());
         Movie savedMovie = movieRepository.save(movie); // Save the movie first to get the ID
 
         // Optionally: Create default showtimes for this movie
-        ShowtimeDTO defaultShowtime = new ShowtimeDTO();
+        /*ShowtimeDTO defaultShowtime = new ShowtimeDTO();
         defaultShowtime.setShowTimeAndDate(LocalDateTime.now().plusDays(1)); // For example, tomorrow
         defaultShowtime.set3D(movieDTO.isIs3D());
         defaultShowtime.setFullLength(movie.getDurationMinutes() >= 170);
@@ -61,7 +93,7 @@ public class MovieController {
         showtime.setFullLength(defaultShowtime.isFullLength());
         showtime.setMovie(savedMovie); // Link the showtime to the movie
 
-        showTimeRepository.save(showtime); // Save the showtime
+        showTimeRepository.save(showtime); // Save the showtime*/
 
         return ResponseEntity.ok(savedMovie);
     }
@@ -95,6 +127,27 @@ public class MovieController {
 
         return movieDTO;
 }
+    @Transactional
+    @DeleteMapping("/{movieName}")
+    public ResponseEntity<Void> deleteMovieByName(@PathVariable String movieName) {
+        System.out.println("Deleting movie with name: " + movieName);
+
+        String trimmedMovieName = movieName.trim();
+        try {
+            if (movieRepository.existsByMovieName(trimmedMovieName)) {
+                movieRepository.deleteByMovieNameIgnoreCase(trimmedMovieName);
+                System.out.println("Movie deleted successfully");
+                return ResponseEntity.ok().build();
+            } else {
+                System.out.println("Movie not found: " + trimmedMovieName);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception details to see the exact error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
     @PostMapping("/{movieId}/showtimes")
     public ResponseEntity<Showtime> createShowtime(@PathVariable int movieId, @RequestBody ShowtimeDTO showtimeDTO) {

@@ -51,6 +51,15 @@ public class ReservationData implements CommandLineRunner {
             movies.add(createMovie("Anders And", 181, "Anthony Russo, Joe Russo", 12, true, Genre.ACTION, 120.0));
             movies.add(createMovie("Lion King 3", 118, "Jon Favreau", 0, true, Genre.ADVENTURE, 100.0));
 
+            System.out.println("Saving location: " + location.getName());
+            locationRepository.save(location);
+            System.out.println("Location saved: " + location.getName());
+
+            for (Movie movie : movies) {
+                System.out.println("Saving movie: " + movie.getMovieName());
+                saveMovieIfNotExists(movie);
+            }
+
             // Save movies to database
             for (Movie movie : movies) {
                 saveMovieIfNotExists(movie);
@@ -153,4 +162,5 @@ public class ReservationData implements CommandLineRunner {
         showtime.setFullLength(false);
         return showtime;
     }
+
 }

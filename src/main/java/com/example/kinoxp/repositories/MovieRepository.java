@@ -10,4 +10,5 @@ public interface MovieRepository  extends JpaRepository<Movie, Integer> {
     boolean existsByMovieName(String movieName); // New method to check if a movie exists by name
 
 
+    void deleteByMovieNameIgnoreCase(String movieName);
 }

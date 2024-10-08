@@ -19,7 +19,7 @@ public class Movie {
     @Column(nullable = false)
     private LocalDate releaseDate;
 
-    @Column(nullable = false)
+    @Column(name = "duration", nullable = false)
     private int durationMinutes;
 
     private boolean isAllNighter;  // Additional charge for long movies
@@ -42,6 +42,17 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie")
     private List<Showtime> showTimes; // en film kan have mange showTimes
+
+    @Column
+    private String posterURL;
+
+    public String getPosterURL() {
+        return posterURL;
+    }
+
+    public void setPosterURL(String posterURL) {
+        this.posterURL = posterURL;
+    }
 
     // Standard konstruktør
     public Movie() {}
