@@ -166,7 +166,7 @@ public class ReservationService {
         StringBuilder ticketBuilder = new StringBuilder();
         ticketBuilder.append("Ticket for: ").append(showTime.getMovie().getMovieName()).append("\n");
         ticketBuilder.append("Cinema: ").append(cinema.getName()).append("\n");
-        ticketBuilder.append("Location: ").append(location.getName()).append("\n");
+        ticketBuilder.append("Location: ").append(location.getAddress()).append("\n");
         ticketBuilder.append("Theater: ").append(theater.getTheaterName()).append("\n");
         ticketBuilder.append("Row: ").append(theaterRow.getRowNumber()).append("\n");
         ticketBuilder.append("Seats: ");

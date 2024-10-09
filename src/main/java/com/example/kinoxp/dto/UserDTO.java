@@ -1,6 +1,6 @@
 package com.example.kinoxp.dto;
 
-import com.example.kinoxp.model.UserType;
+import com.example.kinoxp.enums.UserType;
 
 public class UserDTO {
     private int id;

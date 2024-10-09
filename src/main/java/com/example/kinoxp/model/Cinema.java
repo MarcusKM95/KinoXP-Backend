@@ -13,7 +13,7 @@ public class Cinema {
     @JoinColumn(name = "cinemas_id", nullable = false)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "Cinema_name")
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)

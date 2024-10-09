@@ -1,7 +1,7 @@
 package com.example.kinoxp.service;
 
 import com.example.kinoxp.model.Location;
-import com.example.kinoxp.repository.LocationRepository;
+import com.example.kinoxp.repositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

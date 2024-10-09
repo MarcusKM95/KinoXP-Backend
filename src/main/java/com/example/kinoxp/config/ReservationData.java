@@ -43,7 +43,7 @@ public class ReservationData implements CommandLineRunner {
         try {
             // Initialize location data
             Location location = new Location();
-            location.setName("Copenhagen City Center");
+            location.setAddress("Copenhagen City Center");
             locationRepository.save(location);
 
             // Initialize movie data
@@ -51,9 +51,9 @@ public class ReservationData implements CommandLineRunner {
             movies.add(createMovie("Anders And", 181, "Anthony Russo, Joe Russo", 12, true, Genre.ACTION, 120.0));
             movies.add(createMovie("Lion King 3", 118, "Jon Favreau", 0, true, Genre.ADVENTURE, 100.0));
 
-            System.out.println("Saving location: " + location.getName());
+            System.out.println("Saving location: " + location.getAddress());
             locationRepository.save(location);
-            System.out.println("Location saved: " + location.getName());
+            System.out.println("Location saved: " + location.getAddress());
 
             for (Movie movie : movies) {
                 System.out.println("Saving movie: " + movie.getMovieName());

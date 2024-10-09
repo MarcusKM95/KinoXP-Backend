@@ -2,7 +2,7 @@ package com.example.kinoxp.service;
 
 import com.example.kinoxp.dto.LoginDTO;
 import com.example.kinoxp.model.User;
-import com.example.kinoxp.repository.UserRepository;
+import com.example.kinoxp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

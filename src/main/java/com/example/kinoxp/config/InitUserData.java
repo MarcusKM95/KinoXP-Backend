@@ -1,12 +1,13 @@
 package com.example.kinoxp.config;
 
-import com.example.kinoxp.model.User;
-import com.example.kinoxp.model.UserType;
-import com.example.kinoxp.repository.UserRepository;
+/*import com.example.kinoxp.model.User;
+import com.example.kinoxp.enums.UserType;
+import com.example.kinoxp.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class InitUserData implements CommandLineRunner {
@@ -31,7 +32,7 @@ public class InitUserData implements CommandLineRunner {
                         " with userType: " + user.getUserType() +
                         " and email: " + user.getEmail());
 
-                List<User> existingUser = userRepository.findByEmail(user.getEmail());
+                Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
 
                 if (existingUser.isEmpty()) {
                     userRepository.save(user);
@@ -45,4 +46,4 @@ public class InitUserData implements CommandLineRunner {
             System.out.println("Error creating user data: " + e.getMessage());
         }
     }
-}
+}*/

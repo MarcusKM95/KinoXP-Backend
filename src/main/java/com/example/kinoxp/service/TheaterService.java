@@ -1,7 +1,7 @@
 package com.example.kinoxp.service;
 
 import com.example.kinoxp.model.Theater;
-import com.example.kinoxp.repository.TheaterRepository;
+import com.example.kinoxp.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
