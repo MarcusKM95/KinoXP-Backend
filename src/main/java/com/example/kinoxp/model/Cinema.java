@@ -1,5 +1,6 @@
 package com.example.kinoxp.model;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -9,18 +10,18 @@ public class Cinema {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name = "cinemas_id", nullable = false)
     private int id;
 
     @Column(nullable = false)
-    private String name; // navn på biograf
+    private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", nullable = false)
-    private Location location; // biograf location
-
+    private Location location;
 
     @OneToMany(mappedBy = "cinema") // en biograf kan have mange sale
-    private List<Theater> theaters; // liste af sale i biografen
+    private List<Theater> theaters;
 
     public int getId() {
         return id;
@@ -36,14 +37,6 @@ public class Cinema {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Theater> getTheaters() {
-        return theaters;
-    }
-
-    public void setTheaters(List<Theater> theaters) {
-        this.theaters = theaters;
     }
 
     public Location getLocation() {

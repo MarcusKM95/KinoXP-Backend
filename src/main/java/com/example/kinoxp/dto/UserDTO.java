@@ -1,33 +1,21 @@
-package com.example.kinoxp.model;
+package com.example.kinoxp.dto;
 
-import com.example.kinoxp.enums.UserType;
-import jakarta.persistence.*;
+import com.example.kinoxp.model.UserType;
 
-@Entity
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserDTO {
     private int id;
-
     private String address;
-
-    @Column(unique = true, nullable = false)
     private String email;
-
     private String phoneNumber;
-
-    @Enumerated(EnumType.STRING)
     private UserType userType;
-
     private String userName;
-
     private String password;
 
+    public UserDTO() {
 
-    public User() {}
+    }
 
-    public User(int id, String address, String email, String phoneNumber, UserType userType, String userName, String password) {
+    public UserDTO(int id, String address, String email, String phoneNumber, UserType userType, String userName, String password) {
         this.id = id;
         this.address = address;
         this.email = email;
@@ -37,12 +25,11 @@ public class User {
         this.password = password;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+    public int getId() {
+        return id;
     }
 
     public String getAddress() {
@@ -92,4 +79,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

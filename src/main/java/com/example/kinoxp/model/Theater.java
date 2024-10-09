@@ -11,6 +11,22 @@ public class Theater {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
+    private String name;
+
+    //ManyToOne relation til Location
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
+
+    @Column (nullable = false)
+    private int seats; // antal sæder i salen
+
+    @Column (nullable = false, name = "num_rows")
+    private int numRows; // antal rækker i salen
+
+    @Column (nullable = false)
+    private double price; // pris for en billet i denne sal
     private double cowboyRowDiscount; // rabat for cowboyrækker (de to forreste rækker)
 
     private double sofaRowPremium; // premium tillæg for sofarækker
@@ -97,8 +113,8 @@ public class Theater {
         return cinema;
     }
 
-    public void setCinema(Cinema cinema) {
-        this.cinema = cinema;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     // Metode til at få antallet af rækker i et teater
@@ -133,5 +149,9 @@ public class Theater {
             }
         }
         return new ArrayList<>(); // Returner tom liste, hvis række ikke findes
+    }
+
+    public void setCinema(Cinema cinema) {
+        this.cinema = cinema;
     }
 }
